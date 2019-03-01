@@ -10,6 +10,10 @@ public class Customer {
      */
     public Customer() {
         // TODO Implement required functionality
+    	
+    	/* Update sushiBar.customerCounter.
+    	 * Set private id passed from door.
+    	 */
     }
 
 
@@ -18,6 +22,11 @@ public class Customer {
      */
     public synchronized void order(){
         // TODO Implement required functionality
+    	
+    	/* Use random to decide order, own method.
+    	 * Update SushiBar.servedOrders, takeawayOrders and totalOrders.
+    	 * Wait until meal is eaten, then terminate.
+    	 */
     }
 
     /**

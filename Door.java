@@ -10,6 +10,10 @@ public class Door implements Runnable {
      */
     public Door(WaitingArea waitingArea) {
         // TODO Implement required functionality
+    	
+    	/* Save waitingArea and initialize SyncrhonizedInteger customerID to zero.
+    	 * 
+    	 */
     }
 
     /**
@@ -19,6 +23,11 @@ public class Door implements Runnable {
     @Override
     public void run() {
         // TODO Implement required functionality
+    	
+    	/* Use wait to create customers at intervals, pass customerID into their constructors.
+    	 * Check SushiBar.isOpen and waitingArea.counter before creatig customers.
+    	 * Do this inside a run loop, exit on signal from SushiBar then terminate.
+    	 */
     }
 
     // Add more methods as you see fit

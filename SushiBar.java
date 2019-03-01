@@ -37,6 +37,16 @@ public class SushiBar {
         takeawayOrders = new SynchronizedInteger(0);
 
         // TODO initialize the bar and start the different threads
+        
+        /* Have a run loop that polls the three conditionals
+         * Alternatively use interrupts and some kind of sleep to improve perfomance?
+         * 
+         * Keep track of number of customers currently in the restaurant with a synchronizedInteger.
+         * Initialize the door and waitress threads, then enter a loop.
+         * At the end of the loop, check if !isOpen && nCustomers == 0 && waitingArea.n == 0
+         * 	if !isOpen and no customers then signalAll to terminate and terminate itself.
+         * 	Maybe wait until door and waitresses terminate before terminating itself?
+         */
     }
 
     //Writes actions in the log file and console
