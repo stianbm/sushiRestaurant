@@ -3,12 +3,17 @@
  *
  */
 public class Customer {
+	
+	private int customerID = 0;
+	
 
     /**
      *  Creates a new Customer.
      *  Each customer should be given a unique ID
+     *  
+     *  @param _customerID id generated and passed by Door.
      */
-    public Customer() {
+    public Customer(int _customerID) {
         // TODO Implement required functionality
     	
     	/* Update sushiBar.customerCounter.
@@ -38,4 +43,13 @@ public class Customer {
     }
 
     // Add more methods as you see fit
+    
+    /**
+     * Make customer wait for meals * customerWait, then terminate.
+     * 
+     * @param meals	the amount of meals to be eaten.
+     */
+    public void eat(int meals) {
+    	// TODO Implement required functionality
+    }
 }

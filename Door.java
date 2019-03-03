@@ -3,6 +3,9 @@
  * The Door corresponds to the Producer in the producer/consumer problem
  */
 public class Door implements Runnable {
+	
+	SynchronizedInteger customerID = 0;
+	
 
     /**
      * Creates a new Door. Make sure to save the
