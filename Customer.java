@@ -40,6 +40,7 @@ public class Customer {
      */
     public int getCustomerID() {
         // TODO Implement required functionality
+    	return 0;
     }
 
     // Add more methods as you see fit

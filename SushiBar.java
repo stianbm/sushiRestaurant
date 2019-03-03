@@ -25,6 +25,9 @@ public class SushiBar {
     public static SynchronizedInteger servedOrders;
     public static SynchronizedInteger takeawayOrders;
     public static SynchronizedInteger totalOrders;
+    
+    //SushiBar variables
+    WaitingArea waitingArea;
 
 
     public static void main(String[] args) {
@@ -47,6 +50,8 @@ public class SushiBar {
          * 	if !isOpen and no customers then signalAll to terminate and terminate itself.
          * 	Maybe wait until door and waitresses terminate before terminating itself?
          */
+        
+        WaitingArea waitingArea = new WaitingArea();
     }
 
     //Writes actions in the log file and console

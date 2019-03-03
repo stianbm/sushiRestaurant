@@ -1,8 +1,14 @@
+import java.util.LinkedList;
+
 
 /**
  * This class implements a waiting area used as the bounded buffer, in the producer/consumer problem.
  */
 public class WaitingArea {
+	
+	private LinkedList customerList;
+	private SynchronizedInteger customerCounter;
+	
 
     /**
      * Creates a new waiting area.
@@ -15,6 +21,13 @@ public class WaitingArea {
     	/* Create a fifo list, maybe linked, to keep track of customers. Also keep a SynchronizedInteger counter for the list.
     	 * 
     	 */
+    }
+    
+    public WaitingArea() {
+    	customerList = new LinkedList();
+    	customerCounter = new SynchronizedInteger(0);
+    	
+    	System.out.println("Waiting area created");
     }
 
     /**
@@ -39,6 +52,8 @@ public class WaitingArea {
     	/* Leave checking to door, so just return first customer from list, then update list and counter.
     	 * 
     	 */
+    	
+    	return new Customer(0);
     }
 
     // Add more methods as you see fit
