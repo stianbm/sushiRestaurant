@@ -6,7 +6,7 @@ import java.util.LinkedList;
  */
 public class WaitingArea {
 	
-	private LinkedList customerList;
+	private LinkedList<Customer> customerList;
 	private SynchronizedInteger customerCounter;
 	
 
@@ -24,7 +24,7 @@ public class WaitingArea {
     }
     
     public WaitingArea() {
-    	customerList = new LinkedList();
+    	customerList = new LinkedList<Customer>();
     	customerCounter = new SynchronizedInteger(0);
     	
     	System.out.println("Waiting area created");
@@ -32,15 +32,17 @@ public class WaitingArea {
 
     /**
      * This method should put the customer into the waitingArea
+     * Leave checking to door, so just add customer to the customer list and update the counter.
      *
      * @param customer A customer created by Door, trying to enter the waiting area
      */
     public synchronized void enter(Customer customer) {
-        // TODO Implement required functionality
     	
-    	/* Leave checking to door, so just add customer to the customer list and update the counter
-    	 * 
-    	 */
+    	customerList.add(customer);
+    	customerCounter.increment();
+    	
+    	System.out.println("Added customer " + customer.getCustomerID() + " to waiting area");
+    	System.out.println("customerCounter: " + customerCounter.get());
     }
 
     /**
@@ -59,4 +61,7 @@ public class WaitingArea {
     // Add more methods as you see fit
     
     
+    public int getCustomerCounter() {
+    	return customerCounter.get();
+    }
 }

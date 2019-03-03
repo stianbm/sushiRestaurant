@@ -4,7 +4,8 @@
  */
 public class Door implements Runnable {
 	
-	SynchronizedInteger customerID = 0;
+	private int customerID;
+	private WaitingArea waitingArea;
 	
 
     /**
@@ -14,9 +15,14 @@ public class Door implements Runnable {
     public Door(WaitingArea waitingArea) {
         // TODO Implement required functionality
     	
-    	/* Save waitingArea and initialize SyncrhonizedInteger customerID to zero.
+    	/* Save waitingArea and initialize customerID to zero.
     	 * 
     	 */
+    	
+    	this.waitingArea = waitingArea;
+    	this.customerID =0;
+    	
+    	System.out.println("Door created");
     }
 
     /**
@@ -31,6 +37,14 @@ public class Door implements Runnable {
     	 * Check SushiBar.isOpen and waitingArea.counter before creatig customers.
     	 * Do this inside a run loop, exit on signal from SushiBar then terminate.
     	 */
+    	
+    	if(SushiBar.isOpen && waitingArea.getCustomerCounter() <= SushiBar.waitingAreaCapacity) {
+    		Customer customer = new Customer(customerID++);
+    		waitingArea.enter(customer);
+    		
+    	}
+    	
+    	System.out.println("Door ran");
     }
 
     // Add more methods as you see fit

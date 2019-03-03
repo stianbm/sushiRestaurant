@@ -19,6 +19,10 @@ public class Customer {
     	/* Update sushiBar.customerCounter.
     	 * Set private id passed from door.
     	 */
+    	
+    	this.customerID = _customerID;
+    	
+    	System.out.println("Customer " + this.customerID + " created");
     }
 
 
@@ -40,10 +44,11 @@ public class Customer {
      */
     public int getCustomerID() {
         // TODO Implement required functionality
-    	return 0;
+    	return this.customerID;
     }
 
     // Add more methods as you see fit
+    
     
     /**
      * Make customer wait for meals * customerWait, then terminate.

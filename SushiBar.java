@@ -7,7 +7,7 @@ import java.io.IOException;
 public class SushiBar {
 
     //SushiBar settings
-    private static int waitingAreaCapacity = 15;
+    public static int waitingAreaCapacity = 15;
     private static int waitressCount = 8;
     private static int duration = 4;
     public static int maxOrder = 10;
@@ -25,9 +25,6 @@ public class SushiBar {
     public static SynchronizedInteger servedOrders;
     public static SynchronizedInteger takeawayOrders;
     public static SynchronizedInteger totalOrders;
-    
-    //SushiBar variables
-    WaitingArea waitingArea;
 
 
     public static void main(String[] args) {
@@ -52,6 +49,8 @@ public class SushiBar {
          */
         
         WaitingArea waitingArea = new WaitingArea();
+        
+        new Thread(new Door(waitingArea)).start();
     }
 
     //Writes actions in the log file and console
