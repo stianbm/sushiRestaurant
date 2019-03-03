@@ -11,6 +11,10 @@ public class WaitingArea {
      */
     public WaitingArea(int size) {
         // TODO Implement required functionality
+    	
+    	/* Create a fifo list, maybe linked, to keep track of customers. Also keep a SynchronizedInteger counter for the list.
+    	 * 
+    	 */
     }
 
     /**
@@ -20,6 +24,10 @@ public class WaitingArea {
      */
     public synchronized void enter(Customer customer) {
         // TODO Implement required functionality
+    	
+    	/* Leave checking to door, so just add customer to the customer list and update the counter
+    	 * 
+    	 */
     }
 
     /**
@@ -27,7 +35,13 @@ public class WaitingArea {
      */
     public synchronized Customer next() {
         // TODO Implement required functionality
+    	
+    	/* Leave checking to door, so just return first customer from list, then update list and counter.
+    	 * 
+    	 */
     }
 
     // Add more methods as you see fit
+    
+    
 }

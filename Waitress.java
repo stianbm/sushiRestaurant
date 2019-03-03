@@ -20,6 +20,12 @@ public class Waitress implements Runnable {
     @Override
     public void run() {
         // TODO Implement required functionality
+    	
+    	/* Have running loop
+    	 * Check waiting room counter then either wait or get customer.
+    	 * Wait for waitressWait then take order and update statistics.
+    	 * Update restaurant counter and call customer.eat().
+    	 */
     }
 
 
