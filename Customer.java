@@ -26,7 +26,7 @@ public class Customer {
      * Here you should implement the functionality for ordering food as described in
      * the assignment.
      */
-    public synchronized Map order() {
+    public synchronized Map<String, Integer> order() {
         // TODO Implement required functionality
 
         /*
@@ -36,7 +36,7 @@ public class Customer {
 
         int orders = ThreadLocalRandom.current().nextInt(0, SushiBar.maxOrder + 1);
         int takeaways = SushiBar.maxOrder - orders;
-        Map order = new HashMap();
+        Map<String, Integer> order = new HashMap<String, Integer>();
         order.put("orders", orders);
         order.put("takeaways", takeaways);
 

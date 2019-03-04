@@ -59,6 +59,8 @@ public class SushiBar {
         new Thread(new Door(waitingArea)).start();
 
         new Thread(new Waitress(waitingArea)).start();
+
+        System.out.println("Last line of SushiBar");
     }
 
     // Writes actions in the log file and console

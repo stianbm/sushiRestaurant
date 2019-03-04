@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class implements the consumer part of the producer/consumer problem. One
  * waitress instance corresponds to one consumer.
@@ -35,19 +38,28 @@ public class Waitress implements Runnable {
 
         while (SushiBar.isOpen || waitingArea.getCustomerCounter() > 0) {
             fetchCustomer();
-            // TODO make check syncrhonous with fetchCustomer()
+            // TODO make check syncrhonous with fetchCustomer()?
 
             if (currentCustomer == null) {
                 System.out.println("Waitress fetched customer null");
                 try {
                     waitingArea.wait();
                 } catch (Exception e) {
-                    System.out.println("waitress exception");
+                    System.out.println(e.getMessage());
                 }
 
             } else {
                 System.out.println("Waitress fetched customer: " + currentCustomer.getCustomerID());
-                // TODO take order and wait for customer to finish meal.
+
+                try{
+                    Thread.sleep(SushiBar.waitressWait);
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+
+                System.out.println("Waitress slept first");
+
+                updateStats();
             }
         }
         System.out.println("Waitress done");
@@ -65,6 +77,25 @@ public class Waitress implements Runnable {
                 currentCustomer = null;
             }
         }
+    }
+
+    /**
+     * Fetches the order from customer and updates the global stats, then sleeps while customer eats.
+     */
+    private void updateStats(){
+        Map<String, Integer> order = currentCustomer.order();
+                SushiBar.servedOrders.add(order.get("orders"));
+                SushiBar.takeawayOrders.add(order.get("takeaways"));
+                SushiBar.totalOrders.add(order.get("orders") + order.get("takeaways"));
+                SushiBar.customerCounter.increment();
+
+                try{
+                    Thread.sleep(SushiBar.customerWait);// * order.get("orders"));
+                } catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("Waitress slept second");
+                
     }
 
 }
