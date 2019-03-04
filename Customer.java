@@ -4,12 +4,16 @@
  */
 public class Customer {
 
+    private int customerID = 0;
+
     /**
      *  Creates a new Customer.
      *  Each customer should be given a unique ID
      */
-    public Customer() {
+    public Customer(int customerID) {
         // TODO Implement required functionality
+
+        this.customerID = customerID;
     }
 
 
@@ -26,6 +30,8 @@ public class Customer {
      */
     public int getCustomerID() {
         // TODO Implement required functionality
+
+        return this.customerID;
     }
 
     // Add more methods as you see fit
