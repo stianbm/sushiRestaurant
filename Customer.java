@@ -1,3 +1,7 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This class implements a customer, which is used for holding data and update the statistics
  *
@@ -29,13 +33,23 @@ public class Customer {
     /**
      * Here you should implement the functionality for ordering food as described in the assignment.
      */
-    public synchronized void order(){
+    public synchronized Map order(){
         // TODO Implement required functionality
     	
     	/* Use random to decide order, own method.
-    	 * Update SushiBar.servedOrders, takeawayOrders and totalOrders.
     	 * Wait until meal is eaten, then terminate.
     	 */
+    	
+    	int orders = ThreadLocalRandom.current().nextInt(0, SushiBar.maxOrder + 1);
+    	int takeaways = SushiBar.maxOrder - orders;
+    	Map order = new HashMap();
+    	order.put("orders", orders);
+    	order.put("takeaways", takeaways);
+    	return order;
+    	
+    	
+    	System.out.println("Orders: " + orders);
+    	System.out.println("Takeaways: " + takeaways);
     }
 
     /**
@@ -43,7 +57,6 @@ public class Customer {
      * @return Should return the customerID
      */
     public int getCustomerID() {
-        // TODO Implement required functionality
     	return this.customerID;
     }
 

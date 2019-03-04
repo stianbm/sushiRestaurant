@@ -25,7 +25,11 @@ public class Waitress implements Runnable {
     	 * Check waiting room counter then either wait or get customer.
     	 * Wait for waitressWait then take order and update statistics.
     	 * Update restaurant counter and call customer.eat().
+    	 * Update SushiBar.servedOrders, takeawayOrders and totalOrders.
+    	 * Wait until customer has eaten before fetching another.
     	 */
+    	
+    	
     }
 
 
