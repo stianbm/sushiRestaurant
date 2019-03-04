@@ -67,7 +67,6 @@ public class Door implements Runnable {
         if (SushiBar.isOpen && waitingArea.getCustomerCounter() < SushiBar.waitingAreaCapacity) {
             Customer customer = new Customer(customerID++);
             waitingArea.enter(customer);
-
         }
     }
 }

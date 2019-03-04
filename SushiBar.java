@@ -57,6 +57,8 @@ public class SushiBar {
         WaitingArea waitingArea = new WaitingArea();
 
         new Thread(new Door(waitingArea)).start();
+
+        new Thread(new Waitress(waitingArea)).start();
     }
 
     // Writes actions in the log file and console

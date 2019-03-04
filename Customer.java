@@ -17,12 +17,6 @@ public class Customer {
      * @param _customerID id generated and passed by Door.
      */
     public Customer(int _customerID) {
-        // TODO Implement required functionality
-
-        /*
-         * Set private id passed from door.
-         */
-
         this.customerID = _customerID;
 
         System.out.println("Customer " + this.customerID + " created");
