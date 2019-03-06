@@ -46,7 +46,18 @@ public class WaitingArea {
      */
     public synchronized Customer next() {
         // TODO Implement required functionality
-        return new Customer(0);
+
+        if(!(customerList.size() > 0)){
+            try{
+                System.out.println("Next is waiting");
+                this.wait();
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return customerList.poll();
+
     }
 
     // Add more methods as you see fit

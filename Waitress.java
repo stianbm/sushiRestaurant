@@ -4,6 +4,9 @@
  */
 public class Waitress implements Runnable {
 
+    private WaitingArea waitingArea;
+    private Customer customer;
+
     /**
      * Creates a new waitress. Make sure to save the parameter in the class
      *
@@ -11,6 +14,8 @@ public class Waitress implements Runnable {
      */
     Waitress(WaitingArea waitingArea) {
         // TODO Implement required functionality
+
+        this.waitingArea = waitingArea;
     }
 
     /**
@@ -20,6 +25,24 @@ public class Waitress implements Runnable {
     @Override
     public void run() {
         // TODO Implement required functionality
+
+        while(true){
+            customer = waitingArea.next();
+
+            try{
+                System.out.println("Waitress sleep first");
+                Thread.sleep(SushiBar.waitressWait);
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+
+            try{
+                System.out.println("Waitress sleep second");
+                Thread.sleep(SushiBar.customerWait);
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
 
