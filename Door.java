@@ -16,7 +16,6 @@ public class Door implements Runnable {
      * @param waitingArea The customer queue waiting for a seat
      */
     public Door(WaitingArea waitingArea) {
-        // TODO Implement required functionality
 
         this.waitingArea = waitingArea;
         this.customerID = 0;
@@ -31,28 +30,35 @@ public class Door implements Runnable {
      */
     @Override
     public void run() {
-        // TODO Implement required functionality
 
         while (SushiBar.isOpen) {
+
             addNewCustomer();
 
+            // Wait for a random amount of time
             try {
                 wait = ThreadLocalRandom.current().nextInt(0, SushiBar.doorWait + 1);
                 Thread.sleep(wait);
-                System.out.println("Door slept for " + wait + "ms");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println("***** DOOR CLOSED *****");
+        SushiBar.write("***** DOOR CLOSED *****");
     }
 
     // Add more methods as you see fit
 
+    /**
+     * Generates a new customer using the customerID, only one door so doesn't need
+     * to be syncrhonized. Add the customer to the waiting area and notify the
+     * waitresses.
+     */
     private void addNewCustomer() {
+
         Customer customer = new Customer(customerID++);
         waitingArea.enter(customer);
+
         synchronized (waitingArea) {
             waitingArea.notify();
         }

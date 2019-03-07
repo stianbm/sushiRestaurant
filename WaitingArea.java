@@ -27,8 +27,8 @@ public class WaitingArea {
      * @param customer A customer created by Door, trying to enter the waiting area
      */
     public synchronized void enter(Customer customer) {
-        // TODO Implement required functionality
 
+        // If there isn't room for the new customer, the thread waits.
         if (customerList.size() >= size) {
             try {
                 System.out.println("Enter is waiting");
@@ -39,7 +39,7 @@ public class WaitingArea {
         }
 
         customerList.add(customer);
-        System.out.println("Customer " + customer.getCustomerID() + " is waiting");
+        SushiBar.write("Customer " + customer.getCustomerID() + " is waiting");
         System.out.println("Number of waiting customers: " + customerList.size());
     }
 
@@ -47,6 +47,8 @@ public class WaitingArea {
      * @return The customer that is first in line.
      */
     public synchronized Customer next() {
+
+        // If there are no available customers, the thread waits.
         if (!(customerList.size() > 0)) {
             try {
                 System.out.println("Next is waiting");
@@ -56,6 +58,7 @@ public class WaitingArea {
             }
         }
 
+        // pollFirst() returns null if list is empty, waitress checks for this.
         return customerList.pollFirst();
 
     }

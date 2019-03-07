@@ -21,13 +21,14 @@ public class Customer {
      * the assignment.
      */
     public synchronized void order() {
-        // Generate order, wait, then update the stats.
 
+        // Generate a random order.
         int orders = ThreadLocalRandom.current().nextInt(0, SushiBar.maxOrder + 1);
         int takeaways = SushiBar.maxOrder - orders;
 
+        // Wait for customer to finish the meal
         try {
-            System.out.println("Customer " + this.getCustomerID() + " is now eating");
+            SushiBar.write("Customer " + this.getCustomerID() + " is now eating");
             Thread.sleep(SushiBar.customerWait * orders);
         } catch (Exception e) {
             System.out.println(e.getMessage());

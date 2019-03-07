@@ -34,8 +34,6 @@ public class SushiBar {
         servedOrders = new SynchronizedInteger(0);
         takeawayOrders = new SynchronizedInteger(0);
 
-        // TODO initialize the bar and start the different threads
-
         Clock clock = new Clock(duration);
 
         WaitingArea waitingArea = new WaitingArea(waitingAreaCapacity);
@@ -58,8 +56,12 @@ public class SushiBar {
             bw.close();
             System.out.println(Clock.getTime() + ", " + str);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+    // TODO make SushiBar wait until everyone are done before closing. Create method
+    // waitressDone with SynchronizedInteger, then check number of done waitresses
+    // in a while loop. In loop call this.wait, then call SushiBar.notify when
+    // waitress leaves.
 }

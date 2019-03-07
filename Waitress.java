@@ -30,7 +30,9 @@ public class Waitress implements Runnable {
             // customer is retrieved
             customer = waitingArea.next();
             if (customer != null) {
-                System.out.println("Customer " + customer.getCustomerID() + " is now fetched");
+
+                // Notify door that a customer has been fetched
+                SushiBar.write("Customer " + customer.getCustomerID() + " is now fetched");
                 System.out.println("WNumber of waiting customers " + waitingArea.getNumberOfWaitingCustomers());
                 synchronized (waitingArea) {
                     waitingArea.notify();
@@ -48,7 +50,7 @@ public class Waitress implements Runnable {
 
                 SushiBar.customerCounter.increment();
 
-                System.out.println("Customer " + customer.getCustomerID() + " is now leaving");
+                SushiBar.write("Customer " + customer.getCustomerID() + " is now leaving");
             }
         }
         System.out.println("Waitress done");
