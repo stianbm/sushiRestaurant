@@ -1,7 +1,8 @@
 import java.util.LinkedList;
 
 /**
- * This class implements a waiting area used as the bounded buffer, in the producer/consumer problem.
+ * This class implements a waiting area used as the bounded buffer, in the
+ * producer/consumer problem.
  */
 public class WaitingArea {
 
@@ -28,15 +29,15 @@ public class WaitingArea {
     public synchronized void enter(Customer customer) {
         // TODO Implement required functionality
 
-        if (customerList.size() >= size){
-            try{
+        if (customerList.size() >= size) {
+            try {
                 System.out.println("Enter is waiting");
                 this.wait();
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
-            
+
         customerList.add(customer);
         System.out.println("Number of waiting customers: " + customerList.size());
     }
@@ -47,11 +48,11 @@ public class WaitingArea {
     public synchronized Customer next() {
         // TODO Implement required functionality
 
-        if(!(customerList.size() > 0)){
-            try{
+        if (!(customerList.size() > 0)) {
+            try {
                 System.out.println("Next is waiting");
                 this.wait();
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -61,4 +62,8 @@ public class WaitingArea {
     }
 
     // Add more methods as you see fit
+
+    public synchronized int getNumberOfWaitingCustomers() {
+        return this.customerList.size();
+    }
 }
