@@ -57,7 +57,7 @@ public class WaitingArea {
             }
         }
 
-        return customerList.poll();
+        return customerList.pollFirst();
 
     }
 

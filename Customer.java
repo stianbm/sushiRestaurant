@@ -1,5 +1,6 @@
 /**
- * This class implements a customer, which is used for holding data and update the statistics
+ * This class implements a customer, which is used for holding data and update
+ * the statistics
  *
  */
 public class Customer {
@@ -7,20 +8,17 @@ public class Customer {
     private int customerID = 0;
 
     /**
-     *  Creates a new Customer.
-     *  Each customer should be given a unique ID
+     * Creates a new Customer. Each customer should be given a unique ID
      */
     public Customer(int customerID) {
-        // TODO Implement required functionality
-
         this.customerID = customerID;
     }
 
-
     /**
-     * Here you should implement the functionality for ordering food as described in the assignment.
+     * Here you should implement the functionality for ordering food as described in
+     * the assignment.
      */
-    public synchronized void order(){
+    public synchronized void order() {
         // TODO Implement required functionality
     }
 
@@ -29,8 +27,6 @@ public class Customer {
      * @return Should return the customerID
      */
     public int getCustomerID() {
-        // TODO Implement required functionality
-
         return this.customerID;
     }
 

@@ -13,8 +13,6 @@ public class Waitress implements Runnable {
      * @param waitingArea The waiting area for customers
      */
     Waitress(WaitingArea waitingArea) {
-        // TODO Implement required functionality
-
         this.waitingArea = waitingArea;
     }
 
@@ -23,26 +21,34 @@ public class Waitress implements Runnable {
      */
     @Override
     public void run() {
-        // TODO Implement required functionality
 
+        // Run while SushiBar is open or there are customers left in the waiting area.
         while (SushiBar.isOpen || waitingArea.getNumberOfWaitingCustomers() > 0) {
+
+            // Fetch customer from waiting area and notify door of this. Make sure a
+            // customer is retrieved
             customer = waitingArea.next();
-            synchronized (waitingArea) {
-                waitingArea.notify();
-            }
+            if (customer != null) {
+                System.out.println("WNumber of waiting customers " + waitingArea.getNumberOfWaitingCustomers());
+                synchronized (waitingArea) {
+                    waitingArea.notify();
+                }
 
-            try {
-                System.out.println("Waitress sleep first");
-                Thread.sleep(SushiBar.waitressWait);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+                // Wait before taking order from customer
+                try {
+                    Thread.sleep(SushiBar.waitressWait / 2);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
 
-            try {
-                System.out.println("Waitress sleep second");
-                Thread.sleep(SushiBar.customerWait);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+                // TODO get orderfrom customer, update stats and wait appropriate time.
+
+                // Wait for customer to finish meal
+                try {
+                    Thread.sleep(SushiBar.customerWait / 2);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
         System.out.println("Waitress done");
