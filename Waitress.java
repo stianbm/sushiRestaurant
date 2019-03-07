@@ -21,6 +21,7 @@ public class Waitress implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Waitress created");
 
         // Run while SushiBar is open or there are customers left in the waiting area.
         while (SushiBar.isOpen || waitingArea.getNumberOfWaitingCustomers() > 0) {
@@ -29,6 +30,7 @@ public class Waitress implements Runnable {
             // customer is retrieved
             customer = waitingArea.next();
             if (customer != null) {
+                System.out.println("Customer " + customer.getCustomerID() + " is now fetched");
                 System.out.println("WNumber of waiting customers " + waitingArea.getNumberOfWaitingCustomers());
                 synchronized (waitingArea) {
                     waitingArea.notify();
@@ -41,14 +43,12 @@ public class Waitress implements Runnable {
                     System.out.println(e.getMessage());
                 }
 
-                // TODO get orderfrom customer, update stats and wait appropriate time.
+                // Take order and update customerCounter
+                customer.order();
 
-                // Wait for customer to finish meal
-                try {
-                    Thread.sleep(SushiBar.customerWait / 2);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
+                SushiBar.customerCounter.increment();
+
+                System.out.println("Customer " + customer.getCustomerID() + " is now leaving");
             }
         }
         System.out.println("Waitress done");

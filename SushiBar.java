@@ -3,10 +3,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class SushiBar {
 
-    //SushiBar settings
+    // SushiBar settings
     private static int waitingAreaCapacity = 15;
     private static int waitressCount = 8;
     private static int duration = 4;
@@ -16,21 +15,20 @@ public class SushiBar {
     public static int doorWait = 100; // Used to calculate the interval at which the door tries to create a customer
     public static boolean isOpen = true;
 
-    //Creating log file
+    // Creating log file
     private static File log;
     private static String path = "./";
 
-    //Variables related to statistics
+    // Variables related to statistics
     public static SynchronizedInteger customerCounter;
     public static SynchronizedInteger servedOrders;
     public static SynchronizedInteger takeawayOrders;
     public static SynchronizedInteger totalOrders;
 
-
     public static void main(String[] args) {
         log = new File(path + "log.txt");
 
-        //Initializing shared variables for counting number of orders
+        // Initializing shared variables for counting number of orders
         customerCounter = new SynchronizedInteger(0);
         totalOrders = new SynchronizedInteger(0);
         servedOrders = new SynchronizedInteger(0);
@@ -44,12 +42,14 @@ public class SushiBar {
 
         new Thread(new Door(waitingArea)).start();
 
-        new Thread(new Waitress(waitingArea)).start();
+        for (int i = 0; i < waitressCount; i++) {
+            new Thread(new Waitress(waitingArea)).start();
+        }
 
         System.out.println("SushiBar done");
     }
 
-    //Writes actions in the log file and console
+    // Writes actions in the log file and console
     public static void write(String str) {
         try {
             FileWriter fw = new FileWriter(log.getAbsoluteFile(), true);

@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * This class implements a customer, which is used for holding data and update
  * the statistics
@@ -19,7 +21,23 @@ public class Customer {
      * the assignment.
      */
     public synchronized void order() {
-        // TODO Implement required functionality
+        // Generate order, wait, then update the stats.
+
+        int orders = ThreadLocalRandom.current().nextInt(0, SushiBar.maxOrder + 1);
+        int takeaways = SushiBar.maxOrder - orders;
+
+        try {
+            System.out.println("Customer " + this.getCustomerID() + " is now eating");
+            Thread.sleep(SushiBar.customerWait * orders);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Update order stats, do this here instead of returning them to waitress,
+        // although that would make more sense.
+        SushiBar.servedOrders.add(orders);
+        SushiBar.takeawayOrders.add(takeaways);
+        SushiBar.totalOrders.add(orders + takeaways);
     }
 
     /**

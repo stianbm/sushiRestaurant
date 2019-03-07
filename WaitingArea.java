@@ -39,6 +39,7 @@ public class WaitingArea {
         }
 
         customerList.add(customer);
+        System.out.println("Customer " + customer.getCustomerID() + " is waiting");
         System.out.println("Number of waiting customers: " + customerList.size());
     }
 
@@ -46,8 +47,6 @@ public class WaitingArea {
      * @return The customer that is first in line.
      */
     public synchronized Customer next() {
-        // TODO Implement required functionality
-
         if (!(customerList.size() > 0)) {
             try {
                 System.out.println("Next is waiting");

@@ -45,7 +45,7 @@ public class Door implements Runnable {
             }
         }
 
-        System.out.println("Door done");
+        System.out.println("***** DOOR CLOSED *****");
     }
 
     // Add more methods as you see fit
