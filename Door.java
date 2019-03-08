@@ -42,7 +42,11 @@ public class Door implements Runnable {
             }
         }
 
-        SushiBar.write(Thread.currentThread().getName() + " ***** DOOR CLOSED *****");
+        // Wake all waitresses
+        synchronized (waitingArea) {
+            waitingArea.notifyAll();
+            SushiBar.write(Thread.currentThread().getName() + " ***** DOOR CLOSED *****");
+        }
     }
 
     // Add more methods as you see fit
