@@ -28,7 +28,7 @@ public class WaitingArea {
     public synchronized void enter(Customer customer) {
 
         // If there isn't room for the new customer, the thread waits.
-        if (customerList.size() >= size) {
+        while (customerList.size() >= size) {
             try {
                 this.wait();
             } catch (Exception e) {
