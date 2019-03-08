@@ -19,8 +19,6 @@ public class Door implements Runnable {
 
         this.waitingArea = waitingArea;
         this.customerID = 0;
-
-        System.out.println("Door created");
     }
 
     /**
@@ -44,7 +42,7 @@ public class Door implements Runnable {
             }
         }
 
-        SushiBar.write("***** DOOR CLOSED *****");
+        SushiBar.write(Thread.currentThread().getName() + " ***** DOOR CLOSED *****");
     }
 
     // Add more methods as you see fit

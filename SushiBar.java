@@ -49,8 +49,6 @@ public class SushiBar {
         for (int i = 0; i < waitressCount; i++) {
             new Thread(new Waitress(waitingArea)).start();
         }
-
-        System.out.println("SushiBar done");
     }
 
     // Writes actions in the log file and console
@@ -66,15 +64,19 @@ public class SushiBar {
         }
     }
 
-    // TODO make SushiBar wait until everyone are done before closing. Create method
-    // waitressDone with SynchronizedInteger, then check number of done waitresses
-    // in a while loop. In loop call this.wait, then call SushiBar.notify when
-    // waitress leaves.
-
+    /**
+     * Is called by a waitress when she's done. Increments the counter for done
+     * waitresses and compares it to the total number of waitresses. If this is the
+     * last waitress the method prints the close message and the stats.
+     */
     public static synchronized void waitressDone(){
         doneWaitressCounter.increment();
         if(!(doneWaitressCounter.get() < waitressCount)){
-            write("***** NO MORE CUSTOMERS - THE SHOP IS CLOSED NOW. *****");
+            write(Thread.currentThread().getName() + " ***** NO MORE CUSTOMERS - THE SHOP IS CLOSED NOW. *****");
+            write(Thread.currentThread().getName() + " customerCounter: " + customerCounter.get());
+            write(Thread.currentThread().getName() + " servedOrders: " + servedOrders.get());
+            write(Thread.currentThread().getName() + " takeawayOrders: " + takeawayOrders.get());
+            write(Thread.currentThread().getName() + " totalOrders: " + totalOrders.get());
         }
     }
 }

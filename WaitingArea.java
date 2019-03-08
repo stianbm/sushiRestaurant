@@ -17,8 +17,6 @@ public class WaitingArea {
     public WaitingArea(int size) {
         customerList = new LinkedList<Customer>();
         this.size = size;
-
-        System.out.println("waitingArea created");
     }
 
     /**
@@ -32,7 +30,6 @@ public class WaitingArea {
         // If there isn't room for the new customer, the thread waits.
         if (customerList.size() >= size) {
             try {
-                System.out.println("Enter is waiting");
                 this.wait();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -40,8 +37,7 @@ public class WaitingArea {
         }
 
         customerList.add(customer);
-        SushiBar.write("Customer " + customer.getCustomerID() + " is waiting");
-        System.out.println("Number of waiting customers: " + customerList.size());
+        SushiBar.write(Thread.currentThread().getName() + " Customer " + customer.getCustomerID() + " is waiting");
     }
 
     /**
@@ -55,7 +51,6 @@ public class WaitingArea {
         // If there are no available customers, the thread waits.
         if (!(customerList.size() > 0)) {
             try {
-                System.out.println("Next is waiting");
                 this.wait();
             } catch (Exception e) {
                 System.out.println(e.getMessage());

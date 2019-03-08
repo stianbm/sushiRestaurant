@@ -28,7 +28,7 @@ public class Customer {
 
         // Wait for customer to finish the meal
         try {
-            SushiBar.write("Customer " + this.getCustomerID() + " is now eating");
+            SushiBar.write(Thread.currentThread().getName() + " Customer " + this.getCustomerID() + " is now eating");
             Thread.sleep(SushiBar.customerWait * orders);
         } catch (Exception e) {
             System.out.println(e.getMessage());
