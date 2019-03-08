@@ -25,6 +25,9 @@ public class SushiBar {
     public static SynchronizedInteger takeawayOrders;
     public static SynchronizedInteger totalOrders;
 
+    // Variable to keep track of number of waitresses that are done
+    private static SynchronizedInteger doneWaitressCounter;
+
     public static void main(String[] args) {
         log = new File(path + "log.txt");
 
@@ -33,6 +36,9 @@ public class SushiBar {
         totalOrders = new SynchronizedInteger(0);
         servedOrders = new SynchronizedInteger(0);
         takeawayOrders = new SynchronizedInteger(0);
+
+        // Initialize counter for keeping track of done waitresses
+        doneWaitressCounter = new SynchronizedInteger(0);
 
         Clock clock = new Clock(duration);
 
@@ -64,4 +70,11 @@ public class SushiBar {
     // waitressDone with SynchronizedInteger, then check number of done waitresses
     // in a while loop. In loop call this.wait, then call SushiBar.notify when
     // waitress leaves.
+
+    public static synchronized void waitressDone(){
+        doneWaitressCounter.increment();
+        if(!(doneWaitressCounter.get() < waitressCount)){
+            write("***** NO MORE CUSTOMERS - THE SHOP IS CLOSED NOW. *****");
+        }
+    }
 }

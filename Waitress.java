@@ -54,6 +54,8 @@ public class Waitress implements Runnable {
             }
         }
         System.out.println("Waitress done");
+
+        SushiBar.waitressDone();
     }
 
 }
