@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * This class implements the consumer part of the producer/consumer problem. One
  * waitress instance corresponds to one consumer.
@@ -8,7 +5,7 @@ import java.util.Map;
 public class Waitress implements Runnable {
 
     private WaitingArea waitingArea;
-    private Customer currentCustomer = null;
+    private Customer customer;
 
     /**
      * Creates a new waitress. Make sure to save the parameter in the class
@@ -17,8 +14,6 @@ public class Waitress implements Runnable {
      */
     Waitress(WaitingArea waitingArea) {
         this.waitingArea = waitingArea;
-
-        System.out.println("waitress created");
     }
 
     /**
@@ -26,76 +21,41 @@ public class Waitress implements Runnable {
      */
     @Override
     public void run() {
-        // TODO Implement required functionality
+        System.out.println("Waitress created");
 
-        /*
-         * Have running loop Check waiting room counter then either wait or get
-         * customer. Wait for waitressWait then take order and update statistics. Update
-         * restaurant counter and call customer.eat(). Update SushiBar.servedOrders,
-         * takeawayOrders and totalOrders. Wait until customer has eaten before fetching
-         * another.
-         */
+        // Run while SushiBar is open or there are customers left in the waiting area.
+        while (SushiBar.isOpen || waitingArea.getNumberOfWaitingCustomers() > 0) {
 
-        while (SushiBar.isOpen || waitingArea.getCustomerCounter() > 0) {
-            fetchCustomer();
-            // TODO make check syncrhonous with fetchCustomer()?
+            // Fetch customer from waiting area and notify door of this. Make sure a
+            // customer is retrieved
+            customer = waitingArea.next();
+            if (customer != null) {
 
-            if (currentCustomer == null) {
-                System.out.println("Waitress fetched customer null");
+                // Notify door that a customer has been fetched
+                SushiBar.write("Customer " + customer.getCustomerID() + " is now fetched");
+                System.out.println("WNumber of waiting customers " + waitingArea.getNumberOfWaitingCustomers());
+                synchronized (waitingArea) {
+                    waitingArea.notify();
+                }
+
+                // Wait before taking order from customer
                 try {
-                    waitingArea.wait();
+                    Thread.sleep(SushiBar.waitressWait / 2);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
 
-            } else {
-                System.out.println("Waitress fetched customer: " + currentCustomer.getCustomerID());
+                // Take order and update customerCounter
+                customer.order();
 
-                try{
-                    Thread.sleep(SushiBar.waitressWait);
-                }catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
+                SushiBar.customerCounter.increment();
 
-                System.out.println("Waitress slept first");
-
-                updateStats();
+                SushiBar.write("Customer " + customer.getCustomerID() + " is now leaving");
             }
         }
         System.out.println("Waitress done");
-    }
 
-    /**
-     * Checks if the waiting area has any customers, then either fetches one and
-     * stores it in currentCustomer, or sets it to null.
-     */
-    private void fetchCustomer() {
-        synchronized (waitingArea) {
-            if (waitingArea.getCustomerCounter() > 0) {
-                currentCustomer = waitingArea.next();
-            } else {
-                currentCustomer = null;
-            }
-        }
-    }
-
-    /**
-     * Fetches the order from customer and updates the global stats, then sleeps while customer eats.
-     */
-    private void updateStats(){
-        Map<String, Integer> order = currentCustomer.order();
-                SushiBar.servedOrders.add(order.get("orders"));
-                SushiBar.takeawayOrders.add(order.get("takeaways"));
-                SushiBar.totalOrders.add(order.get("orders") + order.get("takeaways"));
-                SushiBar.customerCounter.increment();
-
-                try{
-                    Thread.sleep(SushiBar.customerWait);// * order.get("orders"));
-                } catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-                System.out.println("Waitress slept second");
-                
+        SushiBar.waitressDone();
     }
 
 }

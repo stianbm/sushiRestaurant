@@ -6,8 +6,8 @@ import java.util.LinkedList;
  */
 public class WaitingArea {
 
+    private int size = 0;
     private LinkedList<Customer> customerList;
-    private SynchronizedInteger customerCounter;
 
     /**
      * Creates a new waiting area.
@@ -15,20 +15,10 @@ public class WaitingArea {
      * @param size The maximum number of Customers that can be waiting.
      */
     public WaitingArea(int size) {
-        // TODO Implement required functionality
-
-        /*
-         * Create a fifo list, maybe linked, to keep track of customers. Also keep a
-         * SynchronizedInteger counter for the list.
-         * 
-         */
-    }
-
-    public WaitingArea() {
         customerList = new LinkedList<Customer>();
-        customerCounter = new SynchronizedInteger(0);
+        this.size = size;
 
-        System.out.println("Waiting area created");
+        System.out.println("waitingArea created");
     }
 
     /**
@@ -39,13 +29,19 @@ public class WaitingArea {
      */
     public synchronized void enter(Customer customer) {
 
+        // If there isn't room for the new customer, the thread waits.
+        if (customerList.size() >= size) {
+            try {
+                System.out.println("Enter is waiting");
+                this.wait();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         customerList.add(customer);
-        customerCounter.increment();
-
-        System.out.println("Added customer " + customer.getCustomerID() + " to waiting area");
-        System.out.println("customerCounter: " + customerCounter.get());
-
-        this.notify();
+        SushiBar.write("Customer " + customer.getCustomerID() + " is waiting");
+        System.out.println("Number of waiting customers: " + customerList.size());
     }
 
     /**
@@ -55,14 +51,25 @@ public class WaitingArea {
      * @return The customer that is first in line.
      */
     public synchronized Customer next() {
-        customerCounter.decrement();
-        System.out.println("customerCounter: " + customerCounter.get());
+
+        // If there are no available customers, the thread waits.
+        if (!(customerList.size() > 0)) {
+            try {
+                System.out.println("Next is waiting");
+                this.wait();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        // pollFirst() returns null if list is empty, waitress checks for this.
         return customerList.pollFirst();
+
     }
 
     // Add more methods as you see fit
 
-    public int getCustomerCounter() {
-        return customerCounter.get();
+    public synchronized int getNumberOfWaitingCustomers() {
+        return this.customerList.size();
     }
 }

@@ -1,5 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -13,37 +11,34 @@ public class Customer {
 
     /**
      * Creates a new Customer. Each customer should be given a unique ID
-     * 
-     * @param _customerID id generated and passed by Door.
      */
-    public Customer(int _customerID) {
-        this.customerID = _customerID;
-
-        System.out.println("Customer " + this.customerID + " created");
+    public Customer(int customerID) {
+        this.customerID = customerID;
     }
 
     /**
      * Here you should implement the functionality for ordering food as described in
      * the assignment.
      */
-    public synchronized Map<String, Integer> order() {
-        // TODO Implement required functionality
+    public synchronized void order() {
 
-        /*
-         * Use random to decide order, own method. Wait until meal is eaten, then
-         * terminate.
-         */
-
+        // Generate a random order.
         int orders = ThreadLocalRandom.current().nextInt(0, SushiBar.maxOrder + 1);
         int takeaways = SushiBar.maxOrder - orders;
-        Map<String, Integer> order = new HashMap<String, Integer>();
-        order.put("orders", orders);
-        order.put("takeaways", takeaways);
 
-        System.out.println("Orders: " + orders);
-        System.out.println("Takeaways: " + takeaways);
+        // Wait for customer to finish the meal
+        try {
+            SushiBar.write("Customer " + this.getCustomerID() + " is now eating");
+            Thread.sleep(SushiBar.customerWait * orders);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-        return order;
+        // Update order stats, do this here instead of returning them to waitress,
+        // although that would make more sense.
+        SushiBar.servedOrders.add(orders);
+        SushiBar.takeawayOrders.add(takeaways);
+        SushiBar.totalOrders.add(orders + takeaways);
     }
 
     /**
@@ -55,13 +50,4 @@ public class Customer {
     }
 
     // Add more methods as you see fit
-
-    /**
-     * Make customer wait for meals * customerWait, then terminate.
-     * 
-     * @param meals the amount of meals to be eaten.
-     */
-    public void eat(int meals) {
-        // TODO Implement required functionality
-    }
 }
