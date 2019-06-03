@@ -31,7 +31,8 @@ public class Waitress implements Runnable {
             if (customer != null) {
 
                 // Notify door that a customer has been fetched
-                SushiBar.write(Thread.currentThread().getName() + " Customer " + customer.getCustomerID() + " is now fetched");
+                SushiBar.write(
+                        Thread.currentThread().getName() + " Customer " + customer.getCustomerID() + " is now fetched");
                 synchronized (waitingArea) {
                     waitingArea.notify();
                 }
@@ -48,10 +49,10 @@ public class Waitress implements Runnable {
 
                 SushiBar.customerCounter.increment();
 
-                SushiBar.write(Thread.currentThread().getName() + " Customer " + customer.getCustomerID() + " is now leaving");
+                SushiBar.write(
+                        Thread.currentThread().getName() + " Customer " + customer.getCustomerID() + " is now leaving");
             }
         }
-        SushiBar.waitressDone();
     }
 
 }

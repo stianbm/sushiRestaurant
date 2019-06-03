@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SushiBar {
 
@@ -25,9 +26,6 @@ public class SushiBar {
     public static SynchronizedInteger takeawayOrders;
     public static SynchronizedInteger totalOrders;
 
-    // Variable to keep track of number of waitresses that are done
-    private static SynchronizedInteger doneWaitressCounter;
-
     public static void main(String[] args) {
         log = new File(path + "log.txt");
 
@@ -37,18 +35,34 @@ public class SushiBar {
         servedOrders = new SynchronizedInteger(0);
         takeawayOrders = new SynchronizedInteger(0);
 
-        // Initialize counter for keeping track of done waitresses
-        doneWaitressCounter = new SynchronizedInteger(0);
-
         Clock clock = new Clock(duration);
 
         WaitingArea waitingArea = new WaitingArea(waitingAreaCapacity);
 
         new Thread(new Door(waitingArea)).start();
 
+        ArrayList<Thread> waitressThreads = new ArrayList<Thread>();
+
         for (int i = 0; i < waitressCount; i++) {
-            new Thread(new Waitress(waitingArea)).start();
+            Thread tempWaitressThread = new Thread(new Waitress(waitingArea));
+            waitressThreads.add(tempWaitressThread);
+            tempWaitressThread.start();
         }
+
+        for (int i = 0; i < waitressThreads.size(); i++) {
+            try {
+                waitressThreads.get(i).join();
+            } catch (InterruptedException exception) {
+                write(exception.getMessage());
+            }
+
+        }
+
+        write(Thread.currentThread().getName() + " ***** NO MORE CUSTOMERS - THE SHOP IS CLOSED NOW. *****");
+        write(Thread.currentThread().getName() + " customerCounter: " + customerCounter.get());
+        write(Thread.currentThread().getName() + " servedOrders: " + servedOrders.get());
+        write(Thread.currentThread().getName() + " takeawayOrders: " + takeawayOrders.get());
+        write(Thread.currentThread().getName() + " totalOrders: " + totalOrders.get());
     }
 
     // Writes actions in the log file and console
@@ -61,22 +75,6 @@ public class SushiBar {
             System.out.println(Clock.getTime() + ", " + str);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Is called by a waitress when she's done. Increments the counter for done
-     * waitresses and compares it to the total number of waitresses. If this is the
-     * last waitress the method prints the close message and the stats.
-     */
-    public static synchronized void waitressDone(){
-        doneWaitressCounter.increment();
-        if(!(doneWaitressCounter.get() < waitressCount)){
-            write(Thread.currentThread().getName() + " ***** NO MORE CUSTOMERS - THE SHOP IS CLOSED NOW. *****");
-            write(Thread.currentThread().getName() + " customerCounter: " + customerCounter.get());
-            write(Thread.currentThread().getName() + " servedOrders: " + servedOrders.get());
-            write(Thread.currentThread().getName() + " takeawayOrders: " + takeawayOrders.get());
-            write(Thread.currentThread().getName() + " totalOrders: " + totalOrders.get());
         }
     }
 }
